@@ -1,0 +1,65 @@
+{
+  "name": "react-daisyui-starter",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build:test": "tsc -b && vite build --mode test",
+    "build": "tsc -b && vite build",
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix",
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
+    "type-check": "tsc --noEmit",
+    "preview": "vite preview",
+    "prepare": "husky"
+  },
+  "dependencies": {
+    "@tailwindcss/vite": "^4.1.11",
+    "@tanstack/react-query": "^5.84.1",
+    "@tanstack/react-query-devtools": "^5.84.1",
+    "@tanstack/react-router": "^1.130.12",
+    "@tanstack/router-devtools": "^1.130.13",
+    "autoprefixer": "^10.4.21",
+    "daisyui": "^5.0.50",
+    "immer": "^10.1.1",
+    "lucide-react": "^0.537.0",
+    "postcss": "^8.5.6",
+    "react": "^19.1.0",
+    "react-dom": "^19.1.0",
+    "react-hot-toast": "^2.5.2",
+    "tailwindcss": "^4.1.11",
+    "zustand": "^5.0.7"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.30.1",
+    "@tailwindcss/postcss": "^4.1.11",
+    "@tanstack/router-cli": "^1.130.15",
+    "@tanstack/router-plugin": "^1.130.15",
+    "@tanstack/router-vite-plugin": "^1.130.15",
+    "@types/react": "^19.1.8",
+    "@types/react-dom": "^19.1.6",
+    "@vitejs/plugin-react": "^4.6.0",
+    "eslint": "^9.30.1",
+    "eslint-plugin-react-hooks": "^5.2.0",
+    "eslint-plugin-react-refresh": "^0.4.20",
+    "globals": "^16.3.0",
+    "husky": "^9.1.7",
+    "lint-staged": "^16.1.4",
+    "prettier": "^3.6.2",
+    "typescript": "~5.8.3",
+    "typescript-eslint": "^8.35.1",
+    "vite": "^7.1.2",
+    "vite-plugin-svgr": "^4.3.0"
+  },
+  "lint-staged": {
+    "*.{js,jsx,ts,tsx}": [
+      "eslint --fix",
+      "prettier --write"
+    ],
+    "*.{json,css,md}": [
+      "prettier --write"
+    ]
+  }
+}
