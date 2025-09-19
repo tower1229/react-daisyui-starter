@@ -9,8 +9,8 @@ export interface ApiRequestOptions extends RequestInit {
 
 export interface ApiResponse<T = unknown> {
   data: T;
-  status: number;
-  statusText: string;
+  code: number;
+  message: string;
 }
 
 class ApiClient {
@@ -70,7 +70,7 @@ class ApiClient {
 
     // 解析响应体
     const contentType = response.headers.get("content-type") || "";
-    let parsedBody: unknown = null;
+    let parsedBody: ApiResponse<unknown> | null = null;
     try {
       if (contentType.includes("application/json")) {
         parsedBody = await response.json();
@@ -85,16 +85,15 @@ class ApiClient {
     // HTTP 层错误
     if (!response.ok) {
       const message =
-        (parsedBody && (parsedBody.msg || parsedBody.message)) ||
+        (parsedBody && parsedBody.message) ||
         `API request failed: ${response.status} ${response.statusText}`;
-      throw new Error(message);
+      throw new Error(message as string);
     }
 
     // 业务层错误（约定后端返回 { code|status, msg, data }）
-    const appCode: number | undefined = parsedBody?.code ?? parsedBody?.status;
+    const appCode: number | undefined = parsedBody?.code;
     if (typeof appCode === "number" && appCode !== 200) {
-      const message: string =
-        parsedBody?.msg || parsedBody?.message || "Request failed";
+      const message: string = parsedBody?.message || "Request failed";
       throw new Error(message);
     }
 

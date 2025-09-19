@@ -1,0 +1,26 @@
+@import "tailwindcss";
+
+@theme {
+  --animate-star-movement-bottom: star-movement-bottom linear infinite alternate;
+  --animate-star-movement-top: star-movement-top linear infinite alternate;
+  @keyframes star-movement-bottom {
+    0% {
+      opacity: 1;
+      transform: translate(0%, 0%);
+    }
+    100% {
+      opacity: 0;
+      transform: translate(-100%, 0%);
+    }
+  }
+  @keyframes star-movement-top {
+    0% {
+      opacity: 1;
+      transform: translate(0%, 0%);
+    }
+    100% {
+      opacity: 0;
+      transform: translate(100%, 0%);
+    }
+  }
+}
