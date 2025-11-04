@@ -1,7 +1,8 @@
 import { create } from 'zustand';
-import { persist, createJSONStorage } from 'zustand/middleware';
+import { createJSONStorage, persist } from 'zustand/middleware';
 import { immer } from 'zustand/middleware/immer';
-import { login as loginApi, register as registerApi, getUserInfo as getUserInfoApi } from '@/api';
+
+import { getUserInfo as getUserInfoApi, login as loginApi, register as registerApi } from '@/api';
 import type { AuthState, loginRequest, registerRequest } from '@/types';
 
 const getUserInfo = async () => {
@@ -23,7 +24,7 @@ interface AuthActions {
 // 认证状态管理
 export const useAuthStore = create<AuthState & AuthActions>()(
   persist(
-    immer(set => ({
+    immer((set) => ({
       // 初始状态
       authToken: null,
       user: null,
@@ -39,7 +40,7 @@ export const useAuthStore = create<AuthState & AuthActions>()(
 
         const response = await getUserInfo();
         if (response) {
-          set(state => {
+          set((state) => {
             state.user = response;
           });
         } else {
@@ -49,7 +50,7 @@ export const useAuthStore = create<AuthState & AuthActions>()(
 
       // 登录
       login: async (credentials: loginRequest) => {
-        set(state => {
+        set((state) => {
           state.isLoading = true;
         });
 
@@ -60,14 +61,14 @@ export const useAuthStore = create<AuthState & AuthActions>()(
             const { authToken } = response.data;
 
             // 更新 token 状态
-            set(state => {
+            set((state) => {
               state.authToken = authToken;
             });
 
             // 从后端获取完整用户信息
             const user = await getUserInfo();
 
-            set(state => {
+            set((state) => {
               state.user = user;
               state.isLoading = false;
             });
@@ -75,7 +76,7 @@ export const useAuthStore = create<AuthState & AuthActions>()(
             throw new Error(response?.msg || 'Login failed');
           }
         } catch (error) {
-          set(state => {
+          set((state) => {
             state.isLoading = false;
           });
           throw error;
@@ -84,7 +85,7 @@ export const useAuthStore = create<AuthState & AuthActions>()(
 
       // 注册
       register: async (data: registerRequest) => {
-        set(state => {
+        set((state) => {
           state.isLoading = true;
         });
 
@@ -93,14 +94,14 @@ export const useAuthStore = create<AuthState & AuthActions>()(
 
           if (response && response.code === 200) {
             // 注册成功
-            set(state => {
+            set((state) => {
               state.isLoading = false;
             });
           } else {
             throw new Error(response?.msg || 'Registration failed');
           }
         } catch (error) {
-          set(state => {
+          set((state) => {
             state.isLoading = false;
           });
           throw error;
@@ -109,7 +110,7 @@ export const useAuthStore = create<AuthState & AuthActions>()(
 
       // 登出
       logout: () => {
-        set(state => {
+        set((state) => {
           state.authToken = null;
           state.user = null;
           state.isLoading = false;
@@ -119,7 +120,7 @@ export const useAuthStore = create<AuthState & AuthActions>()(
     {
       name: 'auth-storage',
       storage: createJSONStorage(() => localStorage),
-      partialize: state => ({
+      partialize: (state) => ({
         authToken: state.authToken,
         user: state.user,
       }),
@@ -128,10 +129,10 @@ export const useAuthStore = create<AuthState & AuthActions>()(
 );
 
 // 选择器函数（用于性能优化）
-export const useAuthToken = () => useAuthStore(state => state.authToken);
-export const useAuthUser = () => useAuthStore(state => state.user);
-export const useIsAuthenticated = () => useAuthStore(state => !!state.authToken);
-export const useAuthLoading = () => useAuthStore(state => state.isLoading);
+export const useAuthToken = () => useAuthStore((state) => state.authToken);
+export const useAuthUser = () => useAuthStore((state) => state.user);
+export const useIsAuthenticated = () => useAuthStore((state) => !!state.authToken);
+export const useAuthLoading = () => useAuthStore((state) => state.isLoading);
 
 // 操作选择器
 export const useAuthActions = () => ({

@@ -1,17 +1,14 @@
-import { StrictMode } from "react";
-import { createRoot } from "react-dom/client";
-import "./index.css";
-import {
-  RouterProvider,
-  createRouter,
-  createHashHistory,
-} from "@tanstack/react-router";
-import { QueryClientProvider, QueryClient } from "@tanstack/react-query";
+import { StrictMode } from 'react';
+import { createRoot } from 'react-dom/client';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { createHashHistory, createRouter, RouterProvider } from '@tanstack/react-router';
 
+import { useAuthStore } from './stores/authStore';
+import { initializeTheme } from './stores/themeStore';
 // 导入生成的路由树
-import { routeTree } from "./routeTree.gen";
-import { initializeTheme } from "./stores/themeStore";
-import { useAuthStore } from "./stores/authStore";
+import { routeTree } from './routeTree.gen';
+
+import './index.css';
 
 // 创建查询客户端
 const queryClient = new QueryClient({
@@ -30,7 +27,7 @@ const router = createRouter({
 });
 
 // 注册路由器类型
-declare module "@tanstack/react-router" {
+declare module '@tanstack/react-router' {
   interface Register {
     router: typeof router;
   }
@@ -49,12 +46,12 @@ const initializeApp = async () => {
         await authStore.getUserInfo();
       } catch (error) {
         // 如果获取用户信息失败，可能是 token 过期，清除认证状态
-        console.warn("Failed to get user info, clearing auth state:", error);
+        console.warn('Failed to get user info, clearing auth state:', error);
         authStore.logout();
       }
     }
   } catch (error) {
-    console.warn("Failed to initialize app data:", error);
+    console.warn('Failed to initialize app data:', error);
   }
 };
 
@@ -62,7 +59,7 @@ const initializeApp = async () => {
 initializeApp();
 
 // 创建根元素
-const rootElement = document.getElementById("root")!;
+const rootElement = document.getElementById('root')!;
 const root = createRoot(rootElement);
 
 // 渲染应用

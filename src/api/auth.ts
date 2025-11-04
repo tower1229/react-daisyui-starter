@@ -1,6 +1,6 @@
 // 定义API请求函数
+import type { ApiResponse, AuthUser } from '@/types/';
 import { apiClient } from '@/utils';
-import type { AuthUser, ApiResponse } from '@/types/';
 
 export type registerRequest = {
   email: string;
@@ -40,7 +40,7 @@ export const sendVerifyCode = async (
   _params: sendVerifyCodeRequest
 ): Promise<ApiResponse | null> => {
   // 模拟网络延迟
-  await new Promise(resolve => setTimeout(resolve, 1000));
+  await new Promise((resolve) => setTimeout(resolve, 1000));
 
   // 模拟成功响应
   return {

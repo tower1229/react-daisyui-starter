@@ -1,27 +1,26 @@
-import { createFileRoute, useRouter } from "@tanstack/react-router";
-import { Loader2, Check } from "lucide-react";
-import { useState } from "react";
-import { Link } from "@tanstack/react-router";
-import ontaLogo from "@/assets/images/onta-white.svg";
-import loginBackground from "@/assets/images/login-b.png";
-import { useAuth } from "@/hooks";
-import { sendVerifyCode } from "@/api";
-import { validatePasswordStrength, checkPasswordRequirement } from "@/utils";
-import toast from "react-hot-toast";
+import { useState } from 'react';
+import toast from 'react-hot-toast';
+import { createFileRoute, Link, useRouter } from '@tanstack/react-router';
+import { Check, Loader2 } from 'lucide-react';
+
+import { sendVerifyCode } from '@/api';
+import loginBackground from '@/assets/images/login-b.png';
+import ontaLogo from '@/assets/images/onta-white.svg';
+import { useAuth } from '@/hooks';
+import { checkPasswordRequirement, validatePasswordStrength } from '@/utils';
 
 function RegisterPage() {
   const [formData, setFormData] = useState({
-    email: "",
-    password: "",
-    confirmPassword: "",
-    verificationCode: "",
+    email: '',
+    password: '',
+    confirmPassword: '',
+    verificationCode: '',
   });
   const [passwordsMatch, setPasswordsMatch] = useState(true);
   const [codeSending, setCodeSending] = useState(false);
   const [codeCountdown, setCodeCountdown] = useState(0);
   const [isLoading, setIsLoading] = useState(false);
-  const [showPasswordRequirements, setShowPasswordRequirements] =
-    useState(false);
+  const [showPasswordRequirements, setShowPasswordRequirements] = useState(false);
 
   // Password strength validation
   const passwordStrength = validatePasswordStrength(formData.password);
@@ -37,16 +36,15 @@ function RegisterPage() {
     }));
 
     // Check if passwords match
-    if (name === "confirmPassword" || name === "password") {
+    if (name === 'confirmPassword' || name === 'password') {
       const newFormData = { ...formData, [name]: value };
       setPasswordsMatch(
-        newFormData.password === newFormData.confirmPassword ||
-          newFormData.confirmPassword === ""
+        newFormData.password === newFormData.confirmPassword || newFormData.confirmPassword === ''
       );
     }
 
     // Show password requirements
-    if (name === "password") {
+    if (name === 'password') {
       setShowPasswordRequirements(true);
     }
   };
@@ -62,19 +60,19 @@ function RegisterPage() {
       !formData.confirmPassword ||
       !formData.verificationCode
     ) {
-      toast.error("Please fill in all required fields");
+      toast.error('Please fill in all required fields');
       setIsLoading(false);
       return;
     }
 
     if (!passwordsMatch) {
-      toast.error("Passwords do not match");
+      toast.error('Passwords do not match');
       setIsLoading(false);
       return;
     }
 
     if (!passwordStrength.isValid) {
-      toast.error("Password strength requirements not met");
+      toast.error('Password strength requirements not met');
       setIsLoading(false);
       return;
     }
@@ -86,17 +84,13 @@ function RegisterPage() {
         verifyCode: formData.verificationCode,
       });
 
-      toast.success("Registration successful! Please log in to your account");
+      toast.success('Registration successful! Please log in to your account');
       // Redirect to login after 3 seconds
       setTimeout(() => {
-        router.navigate({ to: "/login" });
+        router.navigate({ to: '/login' });
       }, 3000);
     } catch (error) {
-      toast.error(
-        error instanceof Error
-          ? error.message
-          : "Registration failed, please try again"
-      );
+      toast.error(error instanceof Error ? error.message : 'Registration failed, please try again');
     } finally {
       setIsLoading(false);
     }
@@ -104,7 +98,7 @@ function RegisterPage() {
 
   const handleSendCode = async () => {
     if (!formData.email) {
-      toast.error("Please enter your email address first");
+      toast.error('Please enter your email address first');
       return;
     }
 
@@ -118,7 +112,7 @@ function RegisterPage() {
       const response = await sendVerifyCode({ email: formData.email });
 
       if (response && response.code === 200) {
-        toast.success("Verification code has been sent to your email");
+        toast.success('Verification code has been sent to your email');
         // Start 60s countdown
         setCodeCountdown(60);
         const timer = setInterval(() => {
@@ -131,14 +125,10 @@ function RegisterPage() {
           });
         }, 1000);
       } else {
-        throw new Error(response?.msg || "Failed to send verification code");
+        throw new Error(response?.msg || 'Failed to send verification code');
       }
     } catch (error) {
-      toast.error(
-        error instanceof Error
-          ? error.message
-          : "Failed to send verification code"
-      );
+      toast.error(error instanceof Error ? error.message : 'Failed to send verification code');
     } finally {
       setCodeSending(false);
     }
@@ -152,9 +142,7 @@ function RegisterPage() {
           {/* Logo */}
           <div className="flex items-center mb-8">
             <img src={ontaLogo} alt="Onta Network" className="h-8" />
-            <span className="text-xl font-semibold text-gray-900">
-              Onta Network
-            </span>
+            <span className="text-xl font-semibold text-gray-900">Onta Network</span>
           </div>
 
           {/* Title */}
@@ -165,10 +153,7 @@ function RegisterPage() {
           {/* Form */}
           <form className="space-y-6" onSubmit={handleSubmit}>
             <div>
-              <label
-                htmlFor="email"
-                className="block text-sm font-medium text-gray-700 mb-2"
-              >
+              <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-2">
                 Email
               </label>
               <input
@@ -186,10 +171,7 @@ function RegisterPage() {
             </div>
 
             <div>
-              <label
-                htmlFor="password"
-                className="block text-sm font-medium text-gray-700 mb-2"
-              >
+              <label htmlFor="password" className="block text-sm font-medium text-gray-700 mb-2">
                 Password
               </label>
               <input
@@ -217,97 +199,72 @@ function RegisterPage() {
                   <div className="flex items-center gap-2">
                     <div
                       className={`w-4 h-4 rounded-full border-2 flex items-center justify-center ${
-                        checkPasswordRequirement(formData.password, "uppercase")
-                          ? "border-success bg-success"
-                          : "border-base-300"
+                        checkPasswordRequirement(formData.password, 'uppercase')
+                          ? 'border-success bg-success'
+                          : 'border-base-300'
                       }`}
                     >
-                      {checkPasswordRequirement(
-                        formData.password,
-                        "uppercase"
-                      ) && (
+                      {checkPasswordRequirement(formData.password, 'uppercase') && (
                         <Check className="w-2 h-2 text-white" strokeWidth={3} />
                       )}
                     </div>
-                    <span className="text-xs text-gray-600">
-                      An uppercase letter (A-Z)
-                    </span>
+                    <span className="text-xs text-gray-600">An uppercase letter (A-Z)</span>
                   </div>
                   <div className="flex items-center gap-2">
                     <div
                       className={`w-4 h-4 rounded-full border-2 flex items-center justify-center ${
-                        checkPasswordRequirement(formData.password, "special")
-                          ? "border-success bg-success"
-                          : "border-base-300"
+                        checkPasswordRequirement(formData.password, 'special')
+                          ? 'border-success bg-success'
+                          : 'border-base-300'
                       }`}
                     >
-                      {checkPasswordRequirement(
-                        formData.password,
-                        "special"
-                      ) && (
+                      {checkPasswordRequirement(formData.password, 'special') && (
                         <Check className="w-2 h-2 text-white" strokeWidth={3} />
                       )}
                     </div>
-                    <span className="text-xs text-gray-600">
-                      A special character (!@#$%^&*)
-                    </span>
+                    <span className="text-xs text-gray-600">A special character (!@#$%^&*)</span>
                   </div>
                   <div className="flex items-center gap-2">
                     <div
                       className={`w-4 h-4 rounded-full border-2 flex items-center justify-center ${
-                        checkPasswordRequirement(formData.password, "lowercase")
-                          ? "border-success bg-success"
-                          : "border-base-300"
+                        checkPasswordRequirement(formData.password, 'lowercase')
+                          ? 'border-success bg-success'
+                          : 'border-base-300'
                       }`}
                     >
-                      {checkPasswordRequirement(
-                        formData.password,
-                        "lowercase"
-                      ) && (
+                      {checkPasswordRequirement(formData.password, 'lowercase') && (
                         <Check className="w-2 h-2 text-white" strokeWidth={3} />
                       )}
                     </div>
-                    <span className="text-xs text-gray-600">
-                      A lowercase letter (a-z)
-                    </span>
+                    <span className="text-xs text-gray-600">A lowercase letter (a-z)</span>
                   </div>
                   <div className="flex items-center gap-2">
                     <div
                       className={`w-4 h-4 rounded-full border-2 flex items-center justify-center ${
-                        checkPasswordRequirement(formData.password, "number")
-                          ? "border-success bg-success"
-                          : "border-base-300"
+                        checkPasswordRequirement(formData.password, 'number')
+                          ? 'border-success bg-success'
+                          : 'border-base-300'
                       }`}
                     >
-                      {checkPasswordRequirement(
-                        formData.password,
-                        "number"
-                      ) && (
+                      {checkPasswordRequirement(formData.password, 'number') && (
                         <Check className="w-2 h-2 text-white" strokeWidth={3} />
                       )}
                     </div>
-                    <span className="text-xs text-gray-600">
-                      A number (0-9)
-                    </span>
+                    <span className="text-xs text-gray-600">A number (0-9)</span>
                   </div>
                   <div className="flex items-center gap-2">
                     <div
                       className={`w-4 h-4 rounded-full border-2 flex items-center justify-center ${
-                        checkPasswordRequirement(formData.password, "length")
-                          ? "border-success bg-success"
-                          : "border-base-300"
+                        checkPasswordRequirement(formData.password, 'length')
+                          ? 'border-success bg-success'
+                          : 'border-base-300'
                       }`}
                     >
-                      {checkPasswordRequirement(
-                        formData.password,
-                        "length"
-                      ) && (
+                      {checkPasswordRequirement(formData.password, 'length') && (
                         <Check className="w-2 h-2 text-white" strokeWidth={3} />
                       )}
                     </div>
-                    <span className="text-xs text-gray-600">
-                      At least 8 characters
-                    </span>
+                    <span className="text-xs text-gray-600">At least 8 characters</span>
                   </div>
                 </div>
               </div>
@@ -333,9 +290,7 @@ function RegisterPage() {
                 disabled={isLoading}
               />
               {!passwordsMatch && formData.confirmPassword && (
-                <p className="text-red-500 text-sm mt-1">
-                  Passwords don't match. Please re-enter.
-                </p>
+                <p className="text-red-500 text-sm mt-1">Passwords don't match. Please re-enter.</p>
               )}
             </div>
 
@@ -361,19 +316,14 @@ function RegisterPage() {
                 <button
                   type="button"
                   onClick={handleSendCode}
-                  disabled={
-                    isLoading ||
-                    !formData.email ||
-                    codeSending ||
-                    codeCountdown > 0
-                  }
+                  disabled={isLoading || !formData.email || codeSending || codeCountdown > 0}
                   className="btn btn-primary"
                 >
                   {codeSending
-                    ? "Sending..."
+                    ? 'Sending...'
                     : codeCountdown > 0
                       ? `${codeCountdown}s`
-                      : "Send Code"}
+                      : 'Send Code'}
                 </button>
               </div>
               <p className="text-sm text-gray-500 mt-1">
@@ -394,7 +344,7 @@ function RegisterPage() {
                   Creating account...
                 </span>
               ) : (
-                "Create Account"
+                'Create Account'
               )}
             </button>
           </form>
@@ -402,11 +352,8 @@ function RegisterPage() {
           {/* Login link */}
           <div className="mt-6 text-center">
             <span className="text-sm text-gray-600">
-              Already have an account?{" "}
-              <Link
-                to="/login"
-                className="font-medium text-blue-600 hover:text-blue-500"
-              >
+              Already have an account?{' '}
+              <Link to="/login" className="font-medium text-blue-600 hover:text-blue-500">
                 Login
               </Link>
             </span>
@@ -414,9 +361,7 @@ function RegisterPage() {
 
           {/* Copyright */}
           <div className="mt-8 text-center">
-            <p className="text-xs text-gray-400">
-              © 2025 ONTA NETWORK. ALL RIGHTS RESERVED
-            </p>
+            <p className="text-xs text-gray-400">© 2025 ONTA NETWORK. ALL RIGHTS RESERVED</p>
           </div>
         </div>
       </div>
@@ -433,6 +378,6 @@ function RegisterPage() {
   );
 }
 
-export const Route = createFileRoute("/register")({
+export const Route = createFileRoute('/register')({
   component: RegisterPage,
 });

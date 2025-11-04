@@ -1,4 +1,4 @@
-@import "tailwindcss";
+@import 'tailwindcss';
 
 @theme {
   --animate-star-movement-bottom: star-movement-bottom linear infinite alternate;

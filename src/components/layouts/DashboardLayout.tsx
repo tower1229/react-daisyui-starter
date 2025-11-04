@@ -1,8 +1,9 @@
-import { type ReactNode } from "react";
-import { Home, Sun, Moon } from "lucide-react";
-import { Link, useRouter } from "@tanstack/react-router";
-import { Header } from "@/components/ui";
-import { useActualTheme, useThemeActions } from "@/stores/themeStore";
+import { type ReactNode } from 'react';
+import { Link, useRouter } from '@tanstack/react-router';
+import { Home, Moon, Sun } from 'lucide-react';
+
+import { Header } from '@/components/ui';
+import { useActualTheme, useThemeActions } from '@/stores/themeStore';
 
 interface DashboardLayoutProps {
   children: ReactNode;
@@ -16,8 +17,8 @@ interface NavItem {
 
 const navItems: NavItem[] = [
   {
-    label: "Dashboard",
-    href: "/dashboard",
+    label: 'Dashboard',
+    href: '/dashboard',
     icon: <Home className="w-5 h-5" />,
   },
 ];
@@ -39,9 +40,7 @@ export function DashboardLayout({ children }: DashboardLayoutProps) {
         <aside className="w-64 bg-base-100 flex flex-col shadow-lg">
           <div className="p-6 flex-1 overflow-y-auto">
             {/* Digital Currency Title */}
-            <h2 className="text-lg font-semibold text-base-content mb-6">
-              Digital Currency
-            </h2>
+            <h2 className="text-lg font-semibold text-base-content mb-6">Digital Currency</h2>
 
             {/* Navigation */}
             <nav className="space-y-2">
@@ -59,8 +58,8 @@ export function DashboardLayout({ children }: DashboardLayoutProps) {
                         to={item.href}
                         className={`flex items-center space-x-3 py-2 px-3 rounded-lg text-sm font-medium transition-colors ${
                           isActive
-                            ? "bg-primary text-primary-content"
-                            : "text-base-content/80 hover:bg-base-200 hover:text-base-content"
+                            ? 'bg-primary text-primary-content'
+                            : 'text-base-content/80 hover:bg-base-200 hover:text-base-content'
                         }`}
                       >
                         {item.icon}
@@ -79,13 +78,9 @@ export function DashboardLayout({ children }: DashboardLayoutProps) {
               <button
                 onClick={toggleTheme}
                 className="btn btn-ghost btn-sm btn-circle"
-                title={
-                  actualTheme === "dark"
-                    ? "Switch to light mode"
-                    : "Switch to dark mode"
-                }
+                title={actualTheme === 'dark' ? 'Switch to light mode' : 'Switch to dark mode'}
               >
-                {actualTheme === "dark" ? (
+                {actualTheme === 'dark' ? (
                   <Sun className="w-5 h-5" />
                 ) : (
                   <Moon className="w-5 h-5" />

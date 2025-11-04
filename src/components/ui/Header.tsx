@@ -1,6 +1,8 @@
-import { UserMenu } from './UserMenu';
-import Logo from '@/assets/images/onta-white.svg?react';
 import { Link } from '@tanstack/react-router';
+
+import Logo from '@/assets/images/onta-white.svg?react';
+
+import { UserMenu } from './UserMenu';
 
 interface HeaderProps {
   className?: string;

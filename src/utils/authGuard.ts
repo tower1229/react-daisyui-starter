@@ -1,5 +1,6 @@
-import { redirect } from '@tanstack/react-router';
 import toast from 'react-hot-toast';
+import { redirect } from '@tanstack/react-router';
+
 import { PUBLIC_ROUTES } from '@/constants';
 
 export type PublicRoute = (typeof PUBLIC_ROUTES)[number];
@@ -10,7 +11,7 @@ export type PublicRoute = (typeof PUBLIC_ROUTES)[number];
  * @returns 是否在白名单中
  */
 export function isPublicRoute(pathname: string): boolean {
-  return PUBLIC_ROUTES.some(route => {
+  return PUBLIC_ROUTES.some((route) => {
     // 精确匹配
     if (pathname === route) {
       return true;

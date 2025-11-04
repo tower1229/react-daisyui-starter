@@ -1,7 +1,7 @@
 // API 请求封装工具
 // 使用环境变量 VITE_APP_HOST 作为 baseUrl
 
-import { useAuthStore } from "@/stores/authStore";
+import { useAuthStore } from '@/stores/authStore';
 
 export interface ApiRequestOptions extends RequestInit {
   params?: Record<string, string | number | boolean>;
@@ -21,7 +21,7 @@ class ApiClient {
     this.baseUrl = import.meta.env.VITE_APP_HOST;
 
     // 确保 baseUrl 不以斜杠结尾
-    if (this.baseUrl.endsWith("/")) {
+    if (this.baseUrl.endsWith('/')) {
       this.baseUrl = this.baseUrl.slice(0, -1);
     }
   }
@@ -29,14 +29,9 @@ class ApiClient {
   /**
    * 构建完整的 URL
    */
-  private buildUrl(
-    endpoint: string,
-    params?: Record<string, string | number | boolean>
-  ): string {
+  private buildUrl(endpoint: string, params?: Record<string, string | number | boolean>): string {
     // 确保 endpoint 以斜杠开头
-    const normalizedEndpoint = endpoint.startsWith("/")
-      ? endpoint
-      : `/${endpoint}`;
+    const normalizedEndpoint = endpoint.startsWith('/') ? endpoint : `/${endpoint}`;
     let url = `${this.baseUrl}${normalizedEndpoint}`;
 
     // 添加查询参数
@@ -58,21 +53,21 @@ class ApiClient {
     // 处理 401 未授权错误
     if (response.status === 401) {
       // 清除认证信息
-      localStorage.removeItem("auth-storage");
+      localStorage.removeItem('auth-storage');
 
       // 重定向到登录页 (如果不在登录页)
-      if (window.location.href.indexOf("/login") === -1) {
-        window.location.href = "/";
+      if (window.location.href.indexOf('/login') === -1) {
+        window.location.href = '/';
       }
 
-      throw new Error("Authentication failed");
+      throw new Error('Authentication failed');
     }
 
     // 解析响应体
-    const contentType = response.headers.get("content-type") || "";
+    const contentType = response.headers.get('content-type') || '';
     let parsedBody: ApiResponse<unknown> | null = null;
     try {
-      if (contentType.includes("application/json")) {
+      if (contentType.includes('application/json')) {
         parsedBody = await response.json();
       } else {
         const text = await response.text();
@@ -92,8 +87,8 @@ class ApiClient {
 
     // 业务层错误（约定后端返回 { code|status, msg, data }）
     const appCode: number | undefined = parsedBody?.code;
-    if (typeof appCode === "number" && appCode !== 200) {
-      const message: string = parsedBody?.message || "Request failed";
+    if (typeof appCode === 'number' && appCode !== 200) {
+      const message: string = parsedBody?.message || 'Request failed';
       throw new Error(message);
     }
 
@@ -103,27 +98,24 @@ class ApiClient {
   /**
    * 通用请求方法
    */
-  private async request<T>(
-    endpoint: string,
-    options: ApiRequestOptions = {}
-  ): Promise<T | null> {
+  private async request<T>(endpoint: string, options: ApiRequestOptions = {}): Promise<T | null> {
     const { params, ...fetchOptions } = options;
 
     const url = this.buildUrl(endpoint, params);
 
     // 设置默认 headers
     const defaultHeaders: HeadersInit = {
-      "Content-Type": "application/json",
+      'Content-Type': 'application/json',
     };
 
     // 添加认证头 - 直接从 Zustand store 获取，确保实时性
     try {
       const authToken = useAuthStore.getState().authToken;
       if (authToken) {
-        defaultHeaders["auth-token"] = `${authToken}`;
+        defaultHeaders['auth-token'] = `${authToken}`;
       }
     } catch (error) {
-      console.warn("Failed to get auth token from store:", error);
+      console.warn('Failed to get auth token from store:', error);
     }
 
     const config: RequestInit = {
@@ -141,7 +133,7 @@ class ApiClient {
       if (error instanceof Error) {
         throw new Error(`Network error: ${error.message}`);
       }
-      throw new Error("Unknown network error occurred");
+      throw new Error('Unknown network error occurred');
     }
   }
 
@@ -153,7 +145,7 @@ class ApiClient {
     params?: Record<string, string | number | boolean>
   ): Promise<T | null> {
     return this.request<T>(endpoint, {
-      method: "GET",
+      method: 'GET',
       params,
     });
   }
@@ -164,10 +156,10 @@ class ApiClient {
   async post<T>(
     endpoint: string,
     data?: unknown,
-    options?: Omit<ApiRequestOptions, "body">
+    options?: Omit<ApiRequestOptions, 'body'>
   ): Promise<T | null> {
     return this.request<T>(endpoint, {
-      method: "POST",
+      method: 'POST',
       body: data ? JSON.stringify(data) : undefined,
       ...options,
     });
@@ -179,10 +171,10 @@ class ApiClient {
   async put<T>(
     endpoint: string,
     data?: unknown,
-    options?: Omit<ApiRequestOptions, "body">
+    options?: Omit<ApiRequestOptions, 'body'>
   ): Promise<T | null> {
     return this.request<T>(endpoint, {
-      method: "PUT",
+      method: 'PUT',
       body: data ? JSON.stringify(data) : undefined,
       ...options,
     });
@@ -194,10 +186,10 @@ class ApiClient {
   async patch<T>(
     endpoint: string,
     data?: unknown,
-    options?: Omit<ApiRequestOptions, "body">
+    options?: Omit<ApiRequestOptions, 'body'>
   ): Promise<T | null> {
     return this.request<T>(endpoint, {
-      method: "PATCH",
+      method: 'PATCH',
       body: data ? JSON.stringify(data) : undefined,
       ...options,
     });
@@ -206,12 +198,9 @@ class ApiClient {
   /**
    * DELETE 请求
    */
-  async delete<T>(
-    endpoint: string,
-    options?: ApiRequestOptions
-  ): Promise<T | null> {
+  async delete<T>(endpoint: string, options?: ApiRequestOptions): Promise<T | null> {
     return this.request<T>(endpoint, {
-      method: "DELETE",
+      method: 'DELETE',
       ...options,
     });
   }
@@ -227,7 +216,7 @@ class ApiClient {
    * 动态设置 baseUrl（用于特殊情况）
    */
   setBaseUrl(url: string): void {
-    this.baseUrl = url.endsWith("/") ? url.slice(0, -1) : url;
+    this.baseUrl = url.endsWith('/') ? url.slice(0, -1) : url;
   }
 }
 

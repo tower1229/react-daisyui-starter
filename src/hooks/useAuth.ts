@@ -4,13 +4,13 @@ import type { loginRequest, registerRequest } from '@/types';
 
 // Auth hook
 export const useAuth = () => {
-  const authToken = useAuthStore(state => state.authToken);
-  const user = useAuthStore(state => state.user);
-  const isLoading = useAuthStore(state => state.isLoading);
+  const authToken = useAuthStore((state) => state.authToken);
+  const user = useAuthStore((state) => state.user);
+  const isLoading = useAuthStore((state) => state.isLoading);
 
-  const login = useAuthStore(state => state.login);
-  const register = useAuthStore(state => state.register);
-  const logout = useAuthStore(state => state.logout);
+  const login = useAuthStore((state) => state.login);
+  const register = useAuthStore((state) => state.register);
+  const logout = useAuthStore((state) => state.logout);
 
   return {
     // state
@@ -28,8 +28,8 @@ export const useAuth = () => {
 
 // Login hook
 export const useLogin = () => {
-  const login = useAuthStore(state => state.login);
-  const isLoading = useAuthStore(state => state.isLoading);
+  const login = useAuthStore((state) => state.login);
+  const isLoading = useAuthStore((state) => state.isLoading);
 
   const handleLogin = async (credentials: loginRequest) => {
     try {
@@ -51,8 +51,8 @@ export const useLogin = () => {
 
 // Register hook
 export const useRegister = () => {
-  const register = useAuthStore(state => state.register);
-  const isLoading = useAuthStore(state => state.isLoading);
+  const register = useAuthStore((state) => state.register);
+  const isLoading = useAuthStore((state) => state.isLoading);
 
   const handleRegister = async (data: registerRequest) => {
     try {

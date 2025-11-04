@@ -54,28 +54,28 @@ export function validatePasswordStrength(
   if (/[a-z]/.test(password)) {
     score += 1;
   } else {
-    feedback.push("Password should contain lowercase letters");
+    feedback.push('Password should contain lowercase letters');
   }
 
   // 包含大写字母
   if (/[A-Z]/.test(password)) {
     score += 1;
   } else {
-    feedback.push("Password should contain uppercase letters");
+    feedback.push('Password should contain uppercase letters');
   }
 
   // 包含数字
   if (/\d/.test(password)) {
     score += 1;
   } else {
-    feedback.push("Password should contain numbers");
+    feedback.push('Password should contain numbers');
   }
 
   // 包含特殊字符
   if (/[!@#$%^&*(),.?":{}|<>]/.test(password)) {
     score += 1;
   } else {
-    feedback.push("Password should contain special characters");
+    feedback.push('Password should contain special characters');
   }
 
   return {
@@ -124,11 +124,7 @@ export function isInRange(value: number, min: number, max: number): boolean {
  * @param minLength 最小长度
  * @param maxLength 最大长度
  */
-export function isValidLength(
-  str: string,
-  minLength: number,
-  maxLength: number
-): boolean {
+export function isValidLength(str: string, minLength: number, maxLength: number): boolean {
   return str.length >= minLength && str.length <= maxLength;
 }
 
@@ -138,9 +134,9 @@ export function isValidLength(
  */
 export function isEmpty(value: unknown): boolean {
   if (value === null || value === undefined) return true;
-  if (typeof value === "string") return value.trim() === "";
+  if (typeof value === 'string') return value.trim() === '';
   if (Array.isArray(value)) return value.length === 0;
-  if (typeof value === "object") return Object.keys(value).length === 0;
+  if (typeof value === 'object') return Object.keys(value).length === 0;
   return false;
 }
 
@@ -149,7 +145,7 @@ export function isEmpty(value: unknown): boolean {
  * @param value 值
  */
 export function isPositiveInteger(value: unknown): boolean {
-  return typeof value === "number" && Number.isInteger(value) && value > 0;
+  return typeof value === 'number' && Number.isInteger(value) && value > 0;
 }
 
 /**
@@ -186,13 +182,10 @@ export interface ValidationRule {
  * @param value 字段值
  * @param rules 验证规则
  */
-export function validateField(
-  value: unknown,
-  rules: ValidationRule
-): string | null {
+export function validateField(value: unknown, rules: ValidationRule): string | null {
   // 必填验证
   if (rules.required && isEmpty(value)) {
-    return "This field is required";
+    return 'This field is required';
   }
 
   // 如果值为空且非必填，跳过其他验证
@@ -201,40 +194,28 @@ export function validateField(
   }
 
   // 最小长度验证
-  if (
-    rules.minLength &&
-    typeof value === "string" &&
-    value.length < rules.minLength
-  ) {
+  if (rules.minLength && typeof value === 'string' && value.length < rules.minLength) {
     return `At least ${rules.minLength} characters required`;
   }
 
   // 最大长度验证
-  if (
-    rules.maxLength &&
-    typeof value === "string" &&
-    value.length > rules.maxLength
-  ) {
+  if (rules.maxLength && typeof value === 'string' && value.length > rules.maxLength) {
     return `Maximum ${rules.maxLength} characters allowed`;
   }
 
   // 正则表达式验证
-  if (
-    rules.pattern &&
-    typeof value === "string" &&
-    !rules.pattern.test(value)
-  ) {
-    return "Invalid format";
+  if (rules.pattern && typeof value === 'string' && !rules.pattern.test(value)) {
+    return 'Invalid format';
   }
 
   // 自定义验证
   if (rules.custom) {
     const result = rules.custom(value);
-    if (typeof result === "string") {
+    if (typeof result === 'string') {
       return result;
     }
     if (!result) {
-      return "Validation failed";
+      return 'Validation failed';
     }
   }
 
@@ -247,20 +228,17 @@ export function validateField(
  * @param requirement 要求类型：'uppercase' | 'lowercase' | 'number' | 'special' | 'length'
  * @returns 是否满足要求
  */
-export function checkPasswordRequirement(
-  password: string,
-  requirement: string
-): boolean {
+export function checkPasswordRequirement(password: string, requirement: string): boolean {
   switch (requirement) {
-    case "uppercase":
+    case 'uppercase':
       return /[A-Z]/.test(password);
-    case "lowercase":
+    case 'lowercase':
       return /[a-z]/.test(password);
-    case "number":
+    case 'number':
       return /\d/.test(password);
-    case "special":
+    case 'special':
       return /[!@#$%^&*(),.?":{}|<>]/.test(password);
-    case "length":
+    case 'length':
       return password.length >= 8;
     default:
       return false;

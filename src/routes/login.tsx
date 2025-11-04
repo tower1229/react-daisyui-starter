@@ -1,11 +1,11 @@
-import { createFileRoute, useRouter } from '@tanstack/react-router';
-import { Loader2 } from 'lucide-react';
 import { useState } from 'react';
-import { Link } from '@tanstack/react-router';
-import ontaLogo from '@/assets/images/onta-white.svg';
-import loginBackground from '@/assets/images/login-b.png';
-import { useAuth } from '@/hooks/useAuth';
 import toast from 'react-hot-toast';
+import { createFileRoute, Link, useRouter } from '@tanstack/react-router';
+import { Loader2 } from 'lucide-react';
+
+import loginBackground from '@/assets/images/login-b.png';
+import ontaLogo from '@/assets/images/onta-white.svg';
+import { useAuth } from '@/hooks/useAuth';
 
 function LoginPage() {
   const [email, setEmail] = useState('');
@@ -66,7 +66,7 @@ function LoginPage() {
                 autoComplete="email"
                 required
                 value={email}
-                onChange={e => setEmail(e.target.value)}
+                onChange={(e) => setEmail(e.target.value)}
                 className="w-full px-3 py-3 border border-gray-300 rounded-md placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                 placeholder="Example@email.com"
                 disabled={isLoading}
@@ -84,7 +84,7 @@ function LoginPage() {
                 autoComplete="current-password"
                 required
                 value={password}
-                onChange={e => setPassword(e.target.value)}
+                onChange={(e) => setPassword(e.target.value)}
                 className="w-full px-3 py-3 border border-gray-300 rounded-md placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                 placeholder="at least 8 characters"
                 disabled={isLoading}

@@ -1,5 +1,6 @@
 import { createFileRoute } from '@tanstack/react-router';
-import { RefreshCcw, Calendar, BarChart3 } from 'lucide-react';
+import { BarChart3, Calendar, RefreshCcw } from 'lucide-react';
+
 import { DashboardLayout } from '@/components/layouts/DashboardLayout';
 
 function DashboardIndexPage() {

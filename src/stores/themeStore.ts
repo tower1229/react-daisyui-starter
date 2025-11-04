@@ -1,5 +1,5 @@
 import { create } from 'zustand';
-import { persist, createJSONStorage } from 'zustand/middleware';
+import { createJSONStorage, persist } from 'zustand/middleware';
 
 // Theme type
 export type Theme = 'light' | 'dark' | 'auto';
@@ -82,8 +82,8 @@ export function initializeTheme() {
 }
 
 // Selector functions
-export const useTheme = () => useThemeStore(state => state.theme);
-export const useSystemTheme = () => useThemeStore(state => state.systemTheme);
+export const useTheme = () => useThemeStore((state) => state.theme);
+export const useSystemTheme = () => useThemeStore((state) => state.systemTheme);
 export const useThemeActions = () => ({
   setTheme: useThemeStore.getState().setTheme,
   toggleTheme: useThemeStore.getState().toggleTheme,
@@ -91,4 +91,4 @@ export const useThemeActions = () => ({
 
 // Calculate current actual theme
 export const useActualTheme = () =>
-  useThemeStore(state => (state.theme === 'auto' ? state.systemTheme : state.theme));
+  useThemeStore((state) => (state.theme === 'auto' ? state.systemTheme : state.theme));

@@ -1,6 +1,7 @@
-import { createRootRoute, Outlet } from '@tanstack/react-router';
 import { Toaster } from 'react-hot-toast';
-import { validateRouteAccess, checkAuthenticatedUserRedirect } from '@/utils';
+import { createRootRoute, Outlet } from '@tanstack/react-router';
+
+import { checkAuthenticatedUserRedirect, validateRouteAccess } from '@/utils';
 
 function RootComponent() {
   return (

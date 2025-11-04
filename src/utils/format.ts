@@ -148,5 +148,5 @@ export function camelToKebab(str: string): string {
  * @param str 短横线字符串
  */
 export function kebabToCamel(str: string): string {
-  return str.replace(/-([a-z])/g, g => g[1].toUpperCase());
+  return str.replace(/-([a-z])/g, (g) => g[1].toUpperCase());
 }

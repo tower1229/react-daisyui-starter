@@ -139,7 +139,7 @@ src/
 ### Theme Toggle
 
 ```tsx
-import { useThemeActions } from "@/stores/themeStore";
+import { useThemeActions } from '@/stores/themeStore';
 
 function ThemeToggle() {
   const { toggleTheme } = useThemeActions();
@@ -155,14 +155,14 @@ function ThemeToggle() {
 ### Protected Route
 
 ```tsx
-import { createFileRoute, redirect } from "@tanstack/react-router";
-import { useAuthStore } from "@/stores/authStore";
+import { createFileRoute, redirect } from '@tanstack/react-router';
+import { useAuthStore } from '@/stores/authStore';
 
-export const Route = createFileRoute("/dashboard")({
+export const Route = createFileRoute('/dashboard')({
   beforeLoad: () => {
     const { isAuthenticated } = useAuthStore.getState();
     if (!isAuthenticated) {
-      throw redirect({ to: "/login" });
+      throw redirect({ to: '/login' });
     }
   },
   component: DashboardPage,
@@ -172,15 +172,15 @@ export const Route = createFileRoute("/dashboard")({
 ### API Client Usage
 
 ```tsx
-import { apiClient } from "@/api";
+import { apiClient } from '@/api';
 
 // GET request
-const users = await apiClient.get<User[]>("/users");
+const users = await apiClient.get<User[]>('/users');
 
 // POST request
-const newUser = await apiClient.post<User>("/users", {
-  name: "John Doe",
-  email: "john@example.com",
+const newUser = await apiClient.post<User>('/users', {
+  name: 'John Doe',
+  email: 'john@example.com',
 });
 ```
 
@@ -203,10 +203,10 @@ The project includes a pre-configured `tailwind.config.js` with DaisyUI plugin:
 
 ```js
 module.exports = {
-  content: ["./src/**/*.{js,ts,jsx,tsx}"],
-  plugins: [require("daisyui")],
+  content: ['./src/**/*.{js,ts,jsx,tsx}'],
+  plugins: [require('daisyui')],
   daisyui: {
-    themes: ["light", "dark"],
+    themes: ['light', 'dark'],
   },
 };
 ```
