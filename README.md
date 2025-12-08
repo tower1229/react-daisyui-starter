@@ -188,6 +188,24 @@ const newUser = await apiClient.post<User>('/users', {
 
 ## 🔧 Configuration
 
+### Cursor IDE (Optional)
+
+If you use [Cursor IDE](https://cursor.sh/), you can add shared AI configuration for better development experience:
+
+```bash
+# Add ai-env as submodule
+git submodule add https://github.com/tower1229/ai-env.git .cursor
+
+# For cloned projects with submodule
+git submodule update --init --recursive
+```
+
+This provides:
+- 📜 **Custom Commands** - PRD generator, prompt templates
+- 📐 **Coding Rules** - DaisyUI 5 reference, development specifications
+
+> **Note**: This is optional. The project works perfectly without it.
+
 ### Environment Variables
 
 Create a `.env.local` file in the root directory:
